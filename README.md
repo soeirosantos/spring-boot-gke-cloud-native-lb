@@ -292,4 +292,4 @@ kubectl apply -f .kube.yaml
 
 Now you can repeat the same tests with the `/down` path. Observe that the pods get restarted automatically.
 
-That's it. I hope you have enjoyed the trip. Feel free to provide comments and feedback on the twitter thread.
+That's it. I hope you have enjoyed the trip. Feel free to provide comments and feedback on the [twitter thread](https://twitter.com/soeiro_santos/status/1294679648014671872).
