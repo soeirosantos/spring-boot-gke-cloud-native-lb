@@ -31,7 +31,7 @@ git clone https://github.com/soeirosantos/spring-boot-gke-cloud-native-lb.git
 It's a simple Spring Boot app that exposes data via a REST API and simulates data access
 via a mock class (check `src/main/kotlin/com/todevornot/videos/domain/Videos.kt`).
 
-Our goal is to deploy this app to GKE using the [Cloud-native load balancer](https://cloud.google.com/kubernetes-engine/docs/concepts/container-native-load-balancing) to handle external traffic. We want to understand how the Cloud-native load balancer interacts with the Kubernetes liveness and readiness probes and how the Spring Boot [probe health indicators](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-kubernetes-probes) can be used to improve the application health check and, perhaps, availability.
+Our goal is to deploy this app to GKE using the [Container-native load balancer](https://cloud.google.com/kubernetes-engine/docs/concepts/container-native-load-balancing) to handle external traffic. We want to understand how the Container-native load balancer interacts with the Kubernetes liveness and readiness probes and how the Spring Boot [probe health indicators](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-kubernetes-probes) can be used to improve the application health check and, perhaps, availability.
 
 Take a look at the class `src/main/kotlin/com/todevornot/videos/check/VideoDataBackendCheck.kt`. This class implements a custom `HealthIndicator` ([more about it](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#writing-custom-healthindicators)) and simulates the verification of the avaiability of a data backend service.
 
@@ -89,7 +89,7 @@ Ok, let's check the Kubernetes config now. Open the file `.kube.yaml` and see ho
 
 (we are setting a couple of things with the default values but that's intentional to make the available config explicit)
 
-Also, observe the `Service` and `Ingress` config in the `.kube.yaml` file. It will create the [Network Endpoint Groups](https://cloud.google.com/load-balancing/docs/negs) responsible by the *magic* behind the Cloud-native load balancing mechanism.
+Also, observe the `Service` and `Ingress` config in the `.kube.yaml` file. It will create the [Network Endpoint Groups](https://cloud.google.com/load-balancing/docs/negs) responsible by the *magic* behind the Container-native load balancing mechanism.
 
 Let's run it and check a few things.
 
