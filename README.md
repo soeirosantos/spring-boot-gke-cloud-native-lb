@@ -1,6 +1,6 @@
-# Spring Boot with GKE Container-native Load Balancer
+# Spring Boot with GKE Container-native Load Balancing
 
-In this tutorial we are going to deploy a Spring Boot application to GKE and expose it using the GKE Container-native load balancer for Ingress. We'll also explore Actuator liveness and readiness health groups and how they integrate with the Container-native load balancer health check.
+In this tutorial we are going to deploy a Spring Boot application to GKE and expose it using the GKE Container-native load balancing for Ingress. We'll also explore Actuator liveness and readiness health groups and how they integrate with the Container-native load balancing health check.
 
 Let's get started creating a GKE cluster
 
@@ -31,7 +31,7 @@ git clone https://github.com/soeirosantos/spring-boot-gke-cloud-native-lb.git
 It's a simple Spring Boot app that exposes data via a REST API and simulates data access
 via a mock class (check `src/main/kotlin/com/todevornot/videos/domain/Videos.kt`).
 
-Our goal is to deploy this app to GKE using the [Container-native load balancer](https://cloud.google.com/kubernetes-engine/docs/concepts/container-native-load-balancing) to handle external traffic. We want to understand how the Container-native load balancer interacts with the Kubernetes liveness and readiness probes and how the Spring Boot [probe health indicators](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-kubernetes-probes) can be used to improve the application health check and, perhaps, availability.
+Our goal is to deploy this app to GKE using the [Container-native load balancing](https://cloud.google.com/kubernetes-engine/docs/concepts/container-native-load-balancing) to handle external traffic. We want to understand how the Container-native load balancing interacts with the Kubernetes liveness and readiness probes and how the Spring Boot [probe health indicators](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-kubernetes-probes) can be used to improve the application health check and, perhaps, availability.
 
 Take a look at the class `src/main/kotlin/com/todevornot/videos/check/VideoDataBackendCheck.kt`. This class implements a custom `HealthIndicator` ([more about it](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#writing-custom-healthindicators)) and simulates the verification of the avaiability of a data backend service.
 
@@ -150,12 +150,11 @@ Check your Ingress annotations. You can see the name of the GCP objects that are
 kubectl get ingress videos-catalog -o json | jq .metadata.annotations
 
 {
-  "alb.ingress.kubernetes.io/scheme": "internet-facing",
   "ingress.kubernetes.io/backends": "{\"k8s1-235fca81-default-videos-catalog-80-ffe68e8f\":\"HEALTHY\"}",
   "ingress.kubernetes.io/forwarding-rule": "k8s-fw-default-videos-catalog--235fca81907e683d",
   "ingress.kubernetes.io/target-proxy": "k8s-tp-default-videos-catalog--235fca81907e683d",
   "ingress.kubernetes.io/url-map": "k8s-um-default-videos-catalog--235fca81907e683d",
-  "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"networking.k8s.io/v1beta1\",\"kind\":\"Ingress\",\"metadata\":{\"annotations\":{\"alb.ingress.kubernetes.io/scheme\":\"internet-facing\"},\"name\":\"videos-catalog\",\"namespace\":\"default\"},\"spec\":{\"backend\":{\"serviceName\":\"videos-catalog\",\"servicePort\":80}}}\n"
+  "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"networking.k8s.io/v1beta1\",\"kind\":\"Ingress\",\"metadata\":{\"annotations\":{\"name\":\"videos-catalog\",\"namespace\":\"default\"},\"spec\":{\"backend\":{\"serviceName\":\"videos-catalog\",\"servicePort\":80}}}\n"
 }
 ```
 
